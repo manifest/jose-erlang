@@ -1,0 +1,9 @@
+language: erlang
+install: make deps plt
+script: make dialyze eunit EUNIT_OPTS=verbose
+notifications:
+  email:
+    on_success: never
+    on_failure: always
+otp_release:
+  - 19.0

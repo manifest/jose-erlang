@@ -1,5 +1,7 @@
 # JSON Object Signing and Encryption (JOSE) library
 
+[![Build Status][travis-img]][travis]
+
 Simple and fast JOSE library for Erlang
 
 
@@ -282,6 +284,8 @@ file:write_file("key.pem", Pem).
 The source code is provided under the terms of [the MIT license][license].
 
 [license]:http://www.opensource.org/licenses/MIT
+[travis]:https://travis-ci.org/manifest/jose-erlang?branch=master
+[travis-img]:https://secure.travis-ci.org/manifest/jose-erlang.png
 [rfc7519-introduction]:https://tools.ietf.org/html/rfc7519#section-1
 [rfc7519-claims-iss]:https://tools.ietf.org/html/rfc7519#section-4.1.1
 [rfc7519-claims-sub]:https://tools.ietf.org/html/rfc7519#section-4.1.2
