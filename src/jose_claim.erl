@@ -50,7 +50,7 @@
 	 | {jti, jti_check()}.
 -type verify_options() :: map().
 %% #{verify => [check()],
-%%   leeway => unix_time()}.
+%%   leeway => non_neg_integer()}.
 
 -export_type([unix_time/0, verify_options/0, check/0]).
 

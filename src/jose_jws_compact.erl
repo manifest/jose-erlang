@@ -152,7 +152,7 @@ default_options() ->
 		parse_payload => map,
 		parse_signatureature => true,
 		verify => [exp, nbf, iat],
-		leeway => 0}.
+		leeway => 1}.
 
 %% =============================================================================
 %% Tests 

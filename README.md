@@ -8,9 +8,9 @@ Simple and fast JOSE library for Erlang
 
 ### Key Generation
 
-**Supported algorithms:**
-**HS256**, **HS384**, **HS512**
-**ES256**, **ES384**, **ES512**
+Supported algorithms:
+HS256, HS384, HS512
+ES256, ES384, ES512
 
 The maximum effective length is chosen for `HS` keys according to [RFC 2104 - HMAC: Keyed-Hashing for Message Authentication - 3. Keys][rfc2104-keys]:
 
@@ -42,9 +42,9 @@ From [RFC 7519 - JSON Web Token (JWT) - 1. Introduction][rfc7519-introduction]:
 
 #### JSON Web Signature (JWS) Compact Serialization
 
-**Supported algorithms:**
-**HS256**, **HS384**, **HS512**
-**ES256**, **ES384**, **ES512**
+Supported algorithms:
+HS256, HS384, HS512
+ES256, ES384, ES512
 
 ```erlang
 %% Generating a pair of keys
@@ -113,6 +113,17 @@ jose_jws_compact:parse(Token, #{parse_header => map, parse_payload => map, parse
 %%  <<"eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJhcHAuZXhhbXBsZS5vcmciLCJleHAiOjQ2MDcyODAwMDAsImlzcyI"...>>]
 ```
 
+Parsing options
+
+name            | value                   | default for `parse/{1,2}` | default for `decode/{3,4}` | default for `decode_fn/{2,3}`
+----------------|-------------------------|---------------------------|----------------------------|-----------------------------
+parse_header    | `base64 | binary | map` | `base64`                  | `base64`                   | `map`
+parse_payload   | `base64 | binary | map` | `base64`                  | `map`                      | `map`
+parse_signature | `base64 | binary`       | `base64`                  | `binary`                   | `binary`
+
+*NOTE: `parse_signature` is always equal to `binary` for decoding functions
+becouse it's impossible to decode token without parsing its signature*
+
 ####  Verification of reserved claim names
 
 ##### Expiration Time Claim
@@ -134,6 +145,13 @@ jose_jws_compact:decode(Token, Alg, Key, #{parse_payload => map, verify => [exp]
 jose_jws_compact:decode(Token, Alg, Key, #{parse_payload => map, verify => [{exp, required}]}).
 ```
 
+Options
+
+name   | value                    | default
+-------|--------------------------|--------
+verify | `[exp | {exp, require}]` | `exp`
+leeway | `non_neg_integer()`      | `1`
+
 ##### Not Before Claim
 
 From [RFC 7519 - JSON Web Token (JWT) - 4.1.5. "nbf" (Not Before) Claim][rfc7519-claims-nbf]:
@@ -153,6 +171,13 @@ jose_jws_compact:decode(Token, Alg, Key, #{parse_payload => map, verify => [nbf]
 jose_jws_compact:decode(Token, Alg, Key, #{parse_payload => map, verify => [{nbf, required}]}).
 ```
 
+Options
+
+name   | value                    | default
+-------|--------------------------|--------
+verify | `[nbf | {nbf, require}]` | `nbf`
+leeway | `non_neg_integer()`      | `1`
+
 ##### Issued At Claim
 
 From [RFC 7519 - JSON Web Token (JWT) - 4.1.6. "iat" (Issued At) Claim][rfc7519-claims-iat]:
@@ -168,6 +193,13 @@ jose_jws_compact:decode(Token, Alg, Key, #{parse_payload => map, verify => [iat]
 %% To verify token's issued at claim and fail when it isn't presented
 jose_jws_compact:decode(Token, Alg, Key, #{parse_payload => map, verify => [{iat, required}]}).
 ```
+
+Options
+
+name   | value                     | default
+-------|---------------------------|--------
+verify | `[nbf | {nbf, require}]`  | `iat`
+leeway | `non_neg_integer()`       | `1`
 
 ##### Issuer Claim
 
@@ -186,6 +218,12 @@ jose_jws_compact:decode(Token, Alg, Key, #{parse_payload => map, verify => [{iss
 %% To verify token's issuer claim but don't fail if it isn't presented
 jose_jws_compact:decode(Token, Alg, Key, #{parse_payload => map, verify => [{iss, <<"example.org">>, optional}]}).
 ```
+
+Options
+
+name   | value                                                   | default
+-------|---------------------------------------------------------|--------
+verify | `[{iss, require} | {iss, binary()} | {iss, binary(), optional}]`  | not set
 
 ##### Subject Claim
 
@@ -207,6 +245,12 @@ jose_jws_compact:decode(Token, Alg, Key, #{parse_payload => map, verify => [{sub
 %% To verify token's subject claim but don't fail if it isn't presented
 jose_jws_compact:decode(Token, Alg, Key, #{parse_payload => map, verify => [{sub, <<"joe">>, optional}]}).
 ```
+
+Options
+
+name   | value                                                   | default
+-------|---------------------------------------------------------|--------
+verify | `[{sub, require} | {sub, binary()} | {sub, binary(), optional}]`  | not set
 
 ##### Audience Claim
 
@@ -233,6 +277,12 @@ jose_jws_compact:decode(Token, Alg, Key, #{parse_payload => map, verify => [{aud
 jose_jws_compact:decode(Token, Alg, Key, #{parse_payload => map, verify => [{aud, <<"app.example.org">>, optional}]}).
 ```
 
+Options
+
+name   | value                                                            | default
+-------|------------------------------------------------------------------|--------
+verify | `[{aud, require} | {aud, binary()} | {aud, binary(), optional}]` | not set
+
 ##### JWT ID Claim
 
 From [RFC 7519 - JSON Web Token (JWT) - 4.1.7. "exp" (Expiration Time) Claim][rfc7519-claims-exp]:
@@ -257,12 +307,18 @@ CheckJti =
 jose_jws_compact:decode(Token, Alg, Key, #{parse_payload => map, [{jti, CheckJti}]}).
 ```
 
+Options
+
+name   | value                                                     | default
+-------|-----------------------------------------------------------|--------
+verify | `[{jti, fun((map() | binary()) -> ok | {error, any()})}]` | not set
+
 
 
 ### PEM Key Format
 
-**Supported algorithms:**
-**ES256**, **ES384**, **ES512**
+Supported algorithms:
+ES256, ES384, ES512
 
 ```erlang
 %% Generting a key
