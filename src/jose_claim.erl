@@ -39,7 +39,8 @@
 %% Types
 -type unix_time() :: non_neg_integer().
 -type use() :: required | optional.
--type jti_check() :: fun((map()) -> ok | {error, any()}).
+-type jti_check_result() :: ok | {error, any()}.
+-type jti_check() :: fun((map()) -> jti_check_result()).
 -type check()
 	:: exp | {exp, use()}
 	 | nbf | {nbf, use()}
@@ -52,7 +53,7 @@
 %% #{verify => [check()],
 %%   leeway => non_neg_integer()}.
 
--export_type([unix_time/0, verify_options/0, check/0]).
+-export_type([unix_time/0, use/0, check/0, jti_check/0, jti_check_result/0, verify_options/0]).
 
 %% =============================================================================
 %% API
@@ -113,7 +114,8 @@ verify_claims({sub, Val, Use}, Payload, _Opts)               -> verify_claims_su
 verify_claims({aud, Use}, Payload, _Opts) when is_atom(Use)  -> verify_claims_aud(Payload, Use);
 verify_claims({aud, Val}, Payload, _Opts)                    -> verify_claims_aud(Val, Payload, required);
 verify_claims({aud, Val, Use}, Payload, _Opts)               -> verify_claims_aud(Val, Payload, Use);
-verify_claims({jti, Fn}, Payload, _Opts)                     -> verify_claims_jti(Fn, Payload).
+verify_claims({jti, Fn}, Payload, _Opts)                     -> verify_claims_jti(Fn, Payload);
+verify_claims(Check, _Payload, _Opts)                        -> error({bad_check, Check}).
 
 %% "iss" (Issuer) Claim
 %%

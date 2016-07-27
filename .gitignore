@@ -17,6 +17,7 @@ log
 _rel
 relx
 erl_crash.dump
-.erlang.mk.packages.v2
+.erlang.mk
+*.d
 *.plt
 

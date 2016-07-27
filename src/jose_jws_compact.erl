@@ -39,13 +39,16 @@
 -define(JWT, <<"JWT">>).
 
 %% Types
--type select_key() :: fun((list(), options()) -> {ok, {jose_jwa:alg(), iodata(), options()}} | {error, any()}).
+-type select_key_result() :: {ok, {jose_jwa:alg(), iodata(), options()}} | {error, any()}.
+-type select_key() :: fun((list(), options()) -> select_key_result()).
 -type parse_options() :: map().
 %% #{parse_header => base64 | binary | map,
 %%   parse_payload => base64 | binary | map,
 %%   parse_signature => base64 | binary}.
 -type options() :: map().
 %% parse_options() + jose_claim:verify_options().
+
+-export_type([select_key/0, select_key_result/0, parse_options/0, options/0]).
 
 %% =============================================================================
 %% API
