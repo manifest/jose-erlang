@@ -6,6 +6,19 @@ Simple and fast JOSE library for Erlang
 
 
 
+###  Why you might consider to use this library
+
+- Simple in use and clean code:
+	- Verification of token's signature and reserved claims (exp, nbf, iat, iss, sub, aud, jti) out of the box.
+	- Key generation for registred cryptographic algorithms: HS256, HS384, HS512 ES256, ES384, ES512.
+	- Supports PEM representation of keys.
+	- Need more? Code is simple, pull requests are welcome.
+- Erlang Crypto API and the library share the same binary key format. Eliminates overheads and increases flexibility.
+- Modern and pure Erlang implementation. Erlang have got many improvements for its crypto library recently.
+- Fast. Designed with performance in mind.
+
+
+
 ### Key Generation
 
 Supported algorithms:
@@ -198,7 +211,7 @@ Options
 
 name   | value                     | default
 -------|---------------------------|--------
-verify | `[nbf | {nbf, require}]`  | `iat`
+verify | `[iat | {iat, require}]`  | `iat`
 leeway | `non_neg_integer()`       | `1`
 
 ##### Issuer Claim
