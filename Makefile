@@ -1,6 +1,6 @@
 PROJECT = jose
 PROJECT_DESCRIPTION = Simple and fast JOSE library
-PROJECT_VERSION = 0.1.0
+PROJECT_VERSION = 0.1.1
 
 LOCAL_DEPS = \
 	crypto \

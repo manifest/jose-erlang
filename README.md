@@ -348,6 +348,14 @@ file:write_file("key.pem", Pem).
 
 
 
+### Changelog
+
+v0.1.1
+
+- fixed generation of public keys in PEM format
+
+
+
 ### License
 
 The source code is provided under the terms of [the MIT license][license].

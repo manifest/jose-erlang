@@ -8,9 +8,11 @@
 -define(ES384, <<"ES384">>).
 -define(ES512, <<"ES512">>).
 
+%% NOTE: total size is calculated as size of the binary key
+%% +1 byte for asn1 der-encoded type
 -define(IS_PUBLIC_KEY(ALG, K),
-	((ALG =:= ?ES256) andalso byte_size(K) =:= 64) orelse
-	((ALG =:= ?ES384) andalso byte_size(K) =:= 96) orelse
-	((ALG =:= ?ES512) andalso byte_size(K) =:= 132)).
+	((ALG =:= ?ES256) andalso byte_size(K) =:= 65) orelse
+	((ALG =:= ?ES384) andalso byte_size(K) =:= 97) orelse
+	((ALG =:= ?ES512) andalso byte_size(K) =:= 133)).
 
 -endif.
