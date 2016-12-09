@@ -153,7 +153,7 @@ parse_payload_deep(B64) ->
 default_options() ->
 	#{parse_header => map,
 		parse_payload => map,
-		parse_signatureature => true,
+		parse_signature => binary,
 		verify => [exp, nbf, iat],
 		leeway => 1}.
 

@@ -25,14 +25,14 @@
 -module(jose_app).
 -behaviour(application).
 
-%% API
+%% Application callbacks
 -export([
 	start/2,
 	stop/1
 ]).
 
 %% =============================================================================
-%% API
+%% Application callbacks
 %% =============================================================================
 
 start(_Type, _Args) ->

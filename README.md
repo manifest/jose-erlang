@@ -162,7 +162,7 @@ Options
 
 name   | value                    | default
 -------|--------------------------|--------
-verify | `[exp | {exp, require}]` | `exp`
+verify | `[exp | {exp, required}]` | `exp`
 leeway | `non_neg_integer()`      | `1`
 
 ##### Not Before Claim
@@ -188,7 +188,7 @@ Options
 
 name   | value                    | default
 -------|--------------------------|--------
-verify | `[nbf | {nbf, require}]` | `nbf`
+verify | `[nbf | {nbf, required}]` | `nbf`
 leeway | `non_neg_integer()`      | `1`
 
 ##### Issued At Claim
@@ -211,7 +211,7 @@ Options
 
 name   | value                     | default
 -------|---------------------------|--------
-verify | `[iat | {iat, require}]`  | `iat`
+verify | `[iat | {iat, required}]`  | `iat`
 leeway | `non_neg_integer()`       | `1`
 
 ##### Issuer Claim
@@ -236,7 +236,7 @@ Options
 
 name   | value                                                   | default
 -------|---------------------------------------------------------|--------
-verify | `[{iss, require} | {iss, binary()} | {iss, binary(), optional}]`  | not set
+verify | `[{iss, required} | {iss, binary()} | {iss, binary(), optional}]`  | not set
 
 ##### Subject Claim
 
@@ -263,7 +263,7 @@ Options
 
 name   | value                                                   | default
 -------|---------------------------------------------------------|--------
-verify | `[{sub, require} | {sub, binary()} | {sub, binary(), optional}]`  | not set
+verify | `[{sub, required} | {sub, binary()} | {sub, binary(), optional}]`  | not set
 
 ##### Audience Claim
 
@@ -294,7 +294,7 @@ Options
 
 name   | value                                                            | default
 -------|------------------------------------------------------------------|--------
-verify | `[{aud, require} | {aud, binary()} | {aud, binary(), optional}]` | not set
+verify | `[{aud, required} | {aud, binary()} | {aud, binary(), optional}]` | not set
 
 ##### JWT ID Claim
 
