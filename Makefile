@@ -1,6 +1,5 @@
 PROJECT = jose
 PROJECT_DESCRIPTION = Simple and fast JOSE library
-PROJECT_VERSION = 0.1.1
 
 LOCAL_DEPS = \
 	crypto \
@@ -10,8 +9,15 @@ DEPS = \
 	base64url \
 	jsx
 
+BUILD_DEPS = \
+	version.mk
+
+DEP_PLUGINS = \
+	version.mk
+
 dep_base64url = git git://github.com/dvv/base64url.git v1.0
 dep_jsx = git git://github.com/talentdeficit/jsx.git v2.8.2
+dep_version.mk = git git://github.com/manifest/version.mk.git master
 
 SHELL_DEPS = tddreloader
 SHELL_OPTS = \
