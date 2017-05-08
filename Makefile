@@ -11,7 +11,7 @@ DEPS = \
 	jsx
 
 dep_base64url = git git://github.com/dvv/base64url.git v1.0
-dep_jsx = git git://github.com/talentdeficit/jsx.git v2.8.0
+dep_jsx = git git://github.com/talentdeficit/jsx.git v2.8.2
 
 SHELL_DEPS = tddreloader
 SHELL_OPTS = \
