@@ -99,7 +99,7 @@ jose_jws_compact:decode(Token, Alg, Pub, #{parse_payload => map, verify => [exp]
 jose_jws_compact:decode_fn(
   fun([ #{<<"kid">> := Kid}, #{<<"iss">> := Iss} | _ ], _Opts) ->
     lookup_key(Iss, Kid)
-    %% {Alg, Key, NewOpts}
+    %% {ok, {Alg, Key, NewOpts}} | {error, Reason}
   end,
   Token).
 
@@ -128,11 +128,11 @@ jose_jws_compact:parse(Token, #{parse_header => map, parse_payload => map, parse
 
 Parsing options
 
-name            | value                   | default for `parse/{1,2}` | default for `decode/{3,4}` | default for `decode_fn/{2,3}`
-----------------|-------------------------|---------------------------|----------------------------|-----------------------------
-parse_header    | `base64 | binary | map` | `base64`                  | `base64`                   | `map`
-parse_payload   | `base64 | binary | map` | `base64`                  | `map`                      | `map`
-parse_signature | `base64 | binary`       | `base64`                  | `binary`                   | `binary`
+name            | value                         | default for `parse/{1,2}` | default for `decode/{3,4}` | default for `decode_fn/{2,3}`
+----------------|-------------------------------|---------------------------|----------------------------|-----------------------------
+parse_header    | `base64` or `binary` or `map` | `base64`                  | `base64`                   | `map`
+parse_payload   | `base64` or `binary` or `map` | `base64`                  | `map`                      | `map`
+parse_signature | `base64` or `binary`          | `base64`                  | `binary`                   | `binary`
 
 *NOTE: `parse_signature` is always equal to `binary` for decoding functions
 becouse it's impossible to decode token without parsing its signature*
@@ -160,10 +160,10 @@ jose_jws_compact:decode(Token, Alg, Key, #{parse_payload => map, verify => [{exp
 
 Options
 
-name   | value                    | default
--------|--------------------------|--------
-verify | `[exp | {exp, required}]` | `exp`
-leeway | `non_neg_integer()`      | `1`
+name   | value                                | default
+-------|--------------------------------------|--------
+verify | `[`  `exp` or `{exp, required}`  `]` | `exp`
+leeway | `non_neg_integer()`                  | `1`
 
 ##### Not Before Claim
 
@@ -186,10 +186,10 @@ jose_jws_compact:decode(Token, Alg, Key, #{parse_payload => map, verify => [{nbf
 
 Options
 
-name   | value                    | default
--------|--------------------------|--------
-verify | `[nbf | {nbf, required}]` | `nbf`
-leeway | `non_neg_integer()`      | `1`
+name   | value                                | default
+-------|--------------------------------------|--------
+verify | `[`  `nbf` or `{nbf, required}`  `]` | `nbf`
+leeway | `non_neg_integer()`                  | `1`
 
 ##### Issued At Claim
 
@@ -209,10 +209,10 @@ jose_jws_compact:decode(Token, Alg, Key, #{parse_payload => map, verify => [{iat
 
 Options
 
-name   | value                     | default
--------|---------------------------|--------
-verify | `[iat | {iat, required}]`  | `iat`
-leeway | `non_neg_integer()`       | `1`
+name   | value                                | default
+-------|--------------------------------------|--------
+verify | `[`  `iat` or `{iat, required}`  `]` | `iat`
+leeway | `non_neg_integer()`                  | `1`
 
 ##### Issuer Claim
 
@@ -234,9 +234,9 @@ jose_jws_compact:decode(Token, Alg, Key, #{parse_payload => map, verify => [{iss
 
 Options
 
-name   | value                                                   | default
--------|---------------------------------------------------------|--------
-verify | `[{iss, required} | {iss, binary()} | {iss, binary(), optional}]`  | not set
+name   | value                                                                           | default
+-------|---------------------------------------------------------------------------------|--------
+verify | `[`  `{iss, required}` or `{iss, binary()}` or `{iss, binary(), optional}`  `]` | undefined
 
 ##### Subject Claim
 
@@ -261,9 +261,9 @@ jose_jws_compact:decode(Token, Alg, Key, #{parse_payload => map, verify => [{sub
 
 Options
 
-name   | value                                                   | default
--------|---------------------------------------------------------|--------
-verify | `[{sub, required} | {sub, binary()} | {sub, binary(), optional}]`  | not set
+name   | value                                                                           | default
+-------|---------------------------------------------------------------------------------|--------
+verify | `[`  `{sub, required}` or `{sub, binary()}` or `{sub, binary(), optional}`  `]` | undefined
 
 ##### Audience Claim
 
@@ -292,9 +292,9 @@ jose_jws_compact:decode(Token, Alg, Key, #{parse_payload => map, verify => [{aud
 
 Options
 
-name   | value                                                            | default
--------|------------------------------------------------------------------|--------
-verify | `[{aud, required} | {aud, binary()} | {aud, binary(), optional}]` | not set
+name   | value                                                                           | default
+-------|---------------------------------------------------------------------------------|--------
+verify | `[`  `{aud, required}` or `{aud, binary()}` or `{aud, binary(), optional}`  `]` | undefined
 
 ##### JWT ID Claim
 
@@ -315,16 +315,16 @@ From [RFC 7519 - JSON Web Token (JWT) - 4.1.7. "exp" (Expiration Time) Claim][rf
 CheckJti =
   fun(#{<<"jti">> := Jti} = _Payload) ->
   	verify_jti(Jti)
-  	%% ok | {error, Rason}
+  	%% ok | {error, Reason}
   end,
 jose_jws_compact:decode(Token, Alg, Key, #{parse_payload => map, [{jti, CheckJti}]}).
 ```
 
 Options
 
-name   | value                                                     | default
--------|-----------------------------------------------------------|--------
-verify | `[{jti, fun((map() | binary()) -> ok | {error, any()})}]` | not set
+name   | value                         | default
+-------|-------------------------------|--------
+verify | `[`  `{jti, function()}`  `]` | undefined
 
 
 
